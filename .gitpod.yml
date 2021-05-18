@@ -1,0 +1,16 @@
+image:
+  file: .Dockerfile
+ports:
+  - port: 6080
+    onOpen: open-preview
+  - port: 5090
+    onOpen: ignore
+  - port: 5900
+    onOpen: ignore
+
+# List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - init: echo export JAVA_TOOL_OPTIONS=\"-Xmx4096m -Dsun.java2d.xrender=false\" | tee -a ~/.bashrc
+  - name: start Flappy Bird and train
+    command: export JAVA_TOOL_OPTIONS="-Xmx4096m -Dsun.java2d.xrender=false"  && mvn compile && mvn exec:java -Dexec.mainClass="com.kingyu.rlbird.ai.TrainBird" -Dexec.args="-p -t"
+  
